@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class Day1Part2 {
 
-    void solve(List<Integer> changes) {
+    int solve(List<Integer> changes) {
 	Set<Integer> frequencies = new HashSet<>();
 	int sum = 0;
 	int index = 0;
@@ -26,7 +26,7 @@ public class Day1Part2 {
 	    }
 	} while(!frequencies.contains(sum));
 
-	System.out.println(sum);
+	return sum;
     }
 
     public static void main(String[] args) throws IOException, URISyntaxException {
@@ -34,6 +34,6 @@ public class Day1Part2 {
 	    .map(Integer::parseInt)
 	    .collect(Collectors.toList());
 
-	new Day1Part2().solve(changes);
+	System.out.println(new Day1Part2().solve(changes));
     }
 }
