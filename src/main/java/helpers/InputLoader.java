@@ -8,9 +8,14 @@ public class InputLoader {
 
     private final ClassLoader classLoader = getClass().getClassLoader();
 
-    public File getResource(int day, int part) {
-	return Optional.of("day" + day + "/part" + part +"_input.txt")
+    public URL getResource(int day) {
+	return Optional.of("day" + day + "/input.txt")
 	    .map(classLoader::getResource)
+	    .orElse(null);
+    }
+
+    public File getResourceAsFile(int day) {
+        return Optional.ofNullable(getResource(day))
 	    .map(URL::getFile)
 	    .map(File::new)
 	    .orElse(null);

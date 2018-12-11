@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Day1Part1 {
     public static void main(String[] args) throws FileNotFoundException {
-        Scanner sc = new Scanner(new InputLoader().getResource(1, 1));
+        Scanner sc = new Scanner(new InputLoader().getResourceAsFile(1));
 
 	int sum = 0;
 
@@ -16,5 +16,6 @@ public class Day1Part1 {
 	}
 
 	System.out.println(sum);
+	sc.close();
     }
 }
