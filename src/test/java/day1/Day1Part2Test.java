@@ -1,7 +1,8 @@
 package day1;
 
-import com.sun.tools.javac.util.List;
 import org.junit.Test;
+
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
