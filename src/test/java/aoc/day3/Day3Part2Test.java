@@ -1,4 +1,4 @@
-package day3;
+package aoc.day3;
 
 import org.junit.Test;
 
@@ -15,6 +15,6 @@ public class Day3Part2Test {
                 "#1 @ 1,3: 4x4",
                 "#2 @ 3,1: 4x4",
                 "#3 @ 5,5: 2x2"
-        )));
+        )).longValue());
     }
 }

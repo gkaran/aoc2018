@@ -1,4 +1,4 @@
-package day1;
+package aoc.day1;
 
 import org.junit.Test;
 
@@ -11,17 +11,17 @@ public class Day1Part1Test {
 
     @Test
     public void assertTestCase1() {
-	assertEquals(oracle.solve(List.of(+1, +1, +1)), 3);
+	assertEquals(oracle.solve(List.of("+1", "+1", "+1")).intValue(), 3);
     }
 
     @Test
     public void assertTestCase2() {
-	assertEquals(oracle.solve(List.of(+1, +1, -2)), 0);
+	assertEquals(oracle.solve(List.of("+1", "+1", "-2")).intValue(), 0);
     }
 
     @Test
     public void assertTestCase3() {
-	assertEquals(oracle.solve(List.of(-1, -2, -3)), -6);
+	assertEquals(oracle.solve(List.of("-1", "-2", "-3")).intValue(), -6);
     }
 
 }

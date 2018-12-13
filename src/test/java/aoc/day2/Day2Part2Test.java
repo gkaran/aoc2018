@@ -1,4 +1,4 @@
-package day2;
+package aoc.day2;
 
 import org.junit.Test;
 

@@ -1,18 +1,14 @@
-package day3;
+package aoc.day3;
 
-import helpers.InputLoader;
+import aoc.Solution;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class Day3Part1 {
-    long solve(List<String> claimStrs) {
+public class Day3Part1 implements Solution<Long> {
+    public Long solve(List<String> claimStrs){
 
         List<Claim> claims = claimStrs.stream()
                 .map(Claim::fromString)
@@ -42,13 +38,6 @@ public class Day3Part1 {
                 .flatMapToInt(Arrays::stream)
                 .filter(i -> i > 1)
                 .count();
-    }
-
-    public static void main(String[] args) throws IOException, URISyntaxException {
-        List<String> codes = Files.lines(Paths.get(new InputLoader().getResource(3).toURI()))
-                .collect(Collectors.toList());
-
-        System.out.println(new Day3Part1().solve(codes));
     }
 
 }
