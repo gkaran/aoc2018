@@ -8,7 +8,7 @@ public class Runner {
     private static final InputLoader inputLoader = new InputLoader();
 
     public static void main(String[] args) throws Exception {
-        int day = 1;
+        int day = 4;
         int part = 1;
 	String className = "aoc.day" + day + ".Day" + day + "Part" + part;
 
