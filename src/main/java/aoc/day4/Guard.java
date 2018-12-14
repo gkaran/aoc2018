@@ -1,12 +1,14 @@
 package aoc.day4;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -37,12 +39,38 @@ public class Guard {
 	var fromParts = StringUtils.split(from.getTime(), ":");
 	var toParts = StringUtils.split(to.getTime(), ":");
 
-        var fromMinutes = Integer.parseInt(fromParts[1]);
+	var fromMinutes = Integer.parseInt(fromParts[1]);
 	var toMinutes = Integer.parseInt(toParts[1]);
 
-	var indexStart = fromMinutes > toMinutes ? 0 : fromMinutes;
-	for (var i = indexStart; i < toMinutes; i++) {
-	    times.get(to.getDay())[i] = '#';
+	if (DateUtils.isSameDay(from.getDate(), to.getDate())) {
+	    for (var i = fromMinutes; i < toMinutes; i++) {
+		times.get(to.getDay())[i] = '#';
+	    }
+	} else {
+	    long diffDays = TimeUnit.DAYS.convert(to.getDate().getTime() - from.getDate().getTime(), TimeUnit.MILLISECONDS);
+
+	    for (var i = 0; i < diffDays; i++) {
+	        int startIndex;
+	        int endIndex;
+
+	        if (i == 0) {
+		    startIndex = fromMinutes;
+		    endIndex = 60;
+		} else if (i == diffDays - 1) {
+		    startIndex = 0;
+		    endIndex = 60;
+		} else {
+		    startIndex = 0;
+		    endIndex = toMinutes;
+		}
+
+		var formatter = new SimpleDateFormat("MM-dd");
+	        var day = formatter.format(DateUtils.addDays(from.getDate(), i));
+		for (var j = startIndex; j < endIndex; j++) {
+		    initDate(day);
+		    times.get(day)[j] = '#';
+		}
+	    }
 	}
     }
 
