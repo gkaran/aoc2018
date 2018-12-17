@@ -1,5 +1,6 @@
 package aoc.day4;
 
+import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 
@@ -14,20 +15,20 @@ import java.util.stream.IntStream;
 
 public class Guard {
 
+    @Getter
     private final int id;
-    public int getId() { return id; }
 
     private final Map<String, char[]> times = new HashMap<>();
 
     public Guard(int id) {this.id = id;}
 
-    public List<SleepRecord> getSleepRecords() {
+    List<SleepRecord> getSleepRecords() {
         return times.entrySet().stream()
 	    .map(entry -> new SleepRecord(entry.getKey(), id, entry.getValue()))
 	    .collect(Collectors.toList());
     }
 
-    public void initDate(String date) {
+    void initDate(String date) {
         if (!times.containsKey(date)) {
 	    char[] values = new char[60];
 	    Arrays.fill(values, '.');
@@ -35,7 +36,7 @@ public class Guard {
 	}
     }
 
-    public void recordSleep(Record from, Record to) {
+    void recordSleep(Record from, Record to) {
 	var fromParts = StringUtils.split(from.getTime(), ":");
 	var toParts = StringUtils.split(to.getTime(), ":");
 
@@ -74,14 +75,14 @@ public class Guard {
 	}
     }
 
-    public long getTotalSleepMinutes() {
+    long getTotalSleepMinutes() {
         return times.values().stream()
 	    .flatMap(chars -> IntStream.range(0, chars.length).mapToObj(i -> chars[i]))
 	    .filter(c -> c == '#')
 	    .count();
     }
 
-    public int getMostSleepyMinute() {
+    int getMostSleepyMinute() {
 	int[] identity = new int[60];
 	Arrays.fill(identity, 0);
 
@@ -98,16 +99,16 @@ public class Guard {
 	return maxIndex;
     }
 
-    public long getMinuteTotalSleepTime(int minute) {
-        return times.values()
+    long getMostSleepyMinuteSleepTime() {
+        // TODO: This is inefficient but can do for now
+        return getMinuteTotalSleepTime(getMostSleepyMinute());
+    }
+
+    private long getMinuteTotalSleepTime(int minute) {
+	return times.values()
 	    .stream()
 	    .map(v -> v[minute])
 	    .filter(c -> c == '#')
 	    .count();
-    }
-
-    public long getMostSleepyMinuteSleepTime() {
-        // TODO: This is inefficient but can do for now
-        return getMinuteTotalSleepTime(getMostSleepyMinute());
     }
 }

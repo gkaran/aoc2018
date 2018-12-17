@@ -1,5 +1,7 @@
 package aoc.day4;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 
@@ -7,10 +9,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Record {
+@Getter
+class Record {
     private static final SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
     private static final SimpleDateFormat formatter = new SimpleDateFormat("MM-dd");
 
+    @Setter
     private int id = -1;
     private String action;
     private String timeStamp;
@@ -19,17 +23,7 @@ public class Record {
     private ActionType actionType;
     private Date date;
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
-
-    public String getAction() { return action; }
-    public String getTimeStamp() { return timeStamp; }
-    public String getDay() { return day; }
-    public String getTime() { return time; }
-    public ActionType getActionType() { return actionType; }
-    public Date getDate() { return date; }
-
-    public Record(String record) {
+    Record(String record) {
 	var parts = StringUtils.split(record, "]");
 	this.action = parts[1].trim();
 	this.timeStamp = StringUtils.remove(parts[0], "[");

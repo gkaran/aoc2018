@@ -18,7 +18,7 @@ public class InputLoader {
 	    .collect(Collectors.toList());
     }
 
-    public URL getResource(int day) {
+    URL getResource(int day) {
 	return Optional.of("inputs/day" + day + ".txt")
 	    .map(classLoader::getResource)
 	    .orElse(null);

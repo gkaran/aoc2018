@@ -1,16 +1,50 @@
 package aoc.day4;
 
+import aoc.Solution;
+import lombok.extern.java.Log;
+
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.logging.Level;
 
-class CommonUtils {
+public class Day4 implements Solution<Integer, Integer> {
 
     private static final String FORMAT_TEMPLATE = "%-7s#%-9d%s";
 
-    public static Map<Integer, Guard> parseGuardData(List<String> data) {
+    @Override
+    public Integer part1(List<String> data) {
+	Map<Integer, Guard> guards = parseGuardData(data);
+
+	printSleepLog(guards);
+
+	Guard mostSleepyGuard = guards.values().stream()
+	    .max(Comparator.comparing(Guard::getTotalSleepMinutes).thenComparingInt(Guard::getId))
+	    .orElseThrow();
+
+	System.out.println("Sleepy Guard id: " + mostSleepyGuard.getId() + ", minute: " + mostSleepyGuard.getMostSleepyMinute());
+
+	return mostSleepyGuard.getId() * mostSleepyGuard.getMostSleepyMinute();
+    }
+
+    @Override
+    public Integer part2(List<String> data) {
+	Map<Integer, Guard> guards = parseGuardData(data);
+	printSleepLog(guards);
+
+	Guard guard = guards.values().stream()
+	    .max(Comparator.comparing(Guard::getMostSleepyMinuteSleepTime))
+	    .orElseThrow();
+
+	System.out.println("Guard id: " + guard.getId() + ", minute: " + guard.getMostSleepyMinute() + ", time: "
+	    + guard.getMostSleepyMinuteSleepTime());
+
+	return guard.getId() * guard.getMostSleepyMinute();
+    }
+
+    private Map<Integer, Guard> parseGuardData(List<String> data) {
 	Map<Integer, Guard> guards = new HashMap<>();
 
 	int currentShiftGuardId = -1;
@@ -40,13 +74,13 @@ class CommonUtils {
 	return guards;
     }
 
-    public static void printSleepLog(Map<Integer, Guard> guards) {
+    private void printSleepLog(Map<Integer, Guard> guards) {
 	List<SleepRecord> sleepRecords = guards.values().stream()
 	    .map(Guard::getSleepRecords)
 	    .flatMap(List::stream)
 	    .collect(Collectors.toList());
 
-	System.out.println("Date   ID        Minute");
+	System.out.println( "Date   ID        Minute");
 	System.out.println("                 000000000011111111112222222222333333333344444444445555555555");
 	System.out.println("                 012345678901234567890123456789012345678901234567890123456789");
 	sleepRecords.stream()
