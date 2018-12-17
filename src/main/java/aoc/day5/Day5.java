@@ -7,11 +7,35 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Day5 implements Solution<Integer, String> {
+public class Day5 implements Solution<Integer, Integer> {
     @Override
     public Integer part1(List<String> data) {
-	List<String> polymer = new ArrayList(Arrays.asList(data.get(0).split("")));
+	List<String> polymer = getPolymerCharacters(data.get(0));
+	return getShortenedPolymerLength(polymer);
+    }
 
+    @Override
+    public Integer part2(List<String> data) {
+	List<String> polymer = getPolymerCharacters(data.get(0));
+
+	return polymer.stream()
+	    .map(String::toLowerCase)
+	    .distinct()
+	    .mapToInt(unit -> {
+	        List<String> copy = new ArrayList<>(polymer);
+		copy.removeIf(unit::equalsIgnoreCase);
+		return getShortenedPolymerLength(copy);
+	    })
+	    .min()
+	    .orElseThrow();
+    }
+
+    private List<String> getPolymerCharacters(String polymer) {
+        return Arrays.asList(polymer.split(""));
+    }
+
+    private int getShortenedPolymerLength(List<String> data) {
+        List<String> polymer = new ArrayList<>(data);
 	int i = 1;
 	boolean pairRemoved = false;
 
@@ -40,10 +64,5 @@ public class Day5 implements Solution<Integer, String> {
 	} while (i < polymer.size());
 
 	return polymer.size();
-    }
-
-    @Override
-    public String part2(List<String> data) {
-	return "";
     }
 }

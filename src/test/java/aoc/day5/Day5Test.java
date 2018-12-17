@@ -17,5 +17,6 @@ public class Day5Test {
 
     @Test
     public void part2() {
+        assertEquals(4, oracle.part2(Collections.singletonList("dabAcCaCBAcCcaDA")).intValue());
     }
 }
