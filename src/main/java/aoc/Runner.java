@@ -9,7 +9,7 @@ public class Runner {
 
     public static void main(String[] args) throws Exception {
         int day = 4;
-        int part = 1;
+        int part = 2;
 	String className = "aoc.day" + day + ".Day" + day + "Part" + part;
 
 	Class<Solution<?>> clazz = (Class<Solution<?>>) Class.forName(className);

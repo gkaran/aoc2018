@@ -97,4 +97,17 @@ public class Guard {
 
 	return maxIndex;
     }
+
+    public long getMinuteTotalSleepTime(int minute) {
+        return times.values()
+	    .stream()
+	    .map(v -> v[minute])
+	    .filter(c -> c == '#')
+	    .count();
+    }
+
+    public long getMostSleepyMinuteSleepTime() {
+        // TODO: This is inefficient but can do for now
+        return getMinuteTotalSleepTime(getMostSleepyMinute());
+    }
 }
