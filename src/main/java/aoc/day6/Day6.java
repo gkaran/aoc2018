@@ -26,14 +26,13 @@ public class Day6 implements Solution<Integer, Integer> {
 	String[][] coors = new String[maxX + 1][maxY + 1];
 	for (var i = 0; i <= maxX; i++) {
 	    for (var j = 0; j <= maxY; j++) {
-		double minDistance = Double.MAX_VALUE;
+		int minDistance = Integer.MAX_VALUE;
 		for (var point : points) {
-		    var distance = Math.abs(point.getX() - i) + Math.abs(point.getY() - j);
+		    var distance = Math.abs(i - point.getX()) + Math.abs(j - point.getY());
 		    if (distance < minDistance) {
 			minDistance = distance;
 			coors[i][j] = point.getName();
-		    }
-		    if (distance == minDistance) {
+		    } else if (distance == minDistance) {
 			coors[i][j] = ".";
 		    }
 		}
