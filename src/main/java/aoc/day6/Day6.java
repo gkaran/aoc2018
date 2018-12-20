@@ -14,18 +14,11 @@ import java.util.stream.Stream;
 public class Day6 implements Solution<Integer, Integer> {
     @Override
     public Integer part1(List<String> data) {
-	List<NamedPoint> points = data.stream()
-	    .map(point -> StringUtils.split(point.trim(), ", "))
-	    .map(coords -> new NamedPoint(UUID.randomUUID().toString(), Integer.parseInt(coords[0]),
-		Integer.parseInt(coords[1])))
-	    .collect(Collectors.toList());
+	List<NamedPoint> points = getNamedPoints(data);
+	String[][] coors = new String[getMaxX(points) + 1][getMaxY(points) + 1];
 
-	int maxX = points.stream().mapToInt(NamedPoint::getX).max().orElseThrow();
-	int maxY = points.stream().mapToInt(NamedPoint::getY).max().orElseThrow();
-
-	String[][] coors = new String[maxX + 1][maxY + 1];
-	for (var i = 0; i <= maxX; i++) {
-	    for (var j = 0; j <= maxY; j++) {
+	for (var i = 0; i < coors.length; i++) {
+	    for (var j = 0; j < coors[i].length; j++) {
 		int minDistance = Integer.MAX_VALUE;
 		for (var point : points) {
 		    var distance = Math.abs(i - point.getX()) + Math.abs(j - point.getY());
@@ -44,9 +37,9 @@ public class Day6 implements Solution<Integer, Integer> {
 	List<String> edgeNames = Stream
 	    .of(
 		Arrays.stream(coors[0]),
-		Arrays.stream(coors[maxX]),
-		IntStream.range(0, maxY).mapToObj(i -> coors[i][maxY]),
-		IntStream.range(0, maxY).mapToObj(i -> coors[i][0])
+		Arrays.stream(coors[coors.length - 1]),
+		IntStream.range(0, coors[0].length).mapToObj(i -> coors[i][coors[0].length - 1]),
+		IntStream.range(0, coors[0].length).mapToObj(i -> coors[i][0])
 	    )
 	    .flatMap(Function.identity())
 	    .distinct()
@@ -63,6 +56,44 @@ public class Day6 implements Solution<Integer, Integer> {
 
     @Override
     public Integer part2(List<String> data) {
-	return null;
+	// Naive approach handling only a single section. Need to handle the case where multiple sections arise.
+	List<NamedPoint> points = getNamedPoints(data);
+	String[][] coors = new String[getMaxX(points) + 1][getMaxY(points) + 1];
+
+	int sum = 0;
+
+	for (var i = 0; i < coors.length; i++) {
+	    for (var j = 0; j < coors[i].length; j++) {
+		var totalDistance = 0;
+		for (var point : points) {
+		    totalDistance += Math.abs(i - point.getX()) + Math.abs(j - point.getY());
+		}
+		if (totalDistance < 10_000) {
+		    coors[i][j] = "#";
+		    sum++;
+		} else {
+		    coors[i][j] = ".";
+		}
+	    }
+	    System.out.println(StringUtils.join(coors[i]));
+	}
+
+	return sum;
+    }
+
+    private int getMaxY(List<NamedPoint> points) {
+	return points.stream().mapToInt(NamedPoint::getY).max().orElseThrow();
+    }
+
+    private int getMaxX(List<NamedPoint> points) {
+	return points.stream().mapToInt(NamedPoint::getX).max().orElseThrow();
+    }
+
+    private List<NamedPoint> getNamedPoints(List<String> data) {
+	return data.stream()
+	    .map(point -> StringUtils.split(point.trim(), ", "))
+	    .map(coords -> new NamedPoint(UUID.randomUUID().toString(), Integer.parseInt(coords[0]),
+		Integer.parseInt(coords[1])))
+	    .collect(Collectors.toList());
     }
 }

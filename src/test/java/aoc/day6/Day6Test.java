@@ -23,6 +23,5 @@ public class Day6Test {
     }
 
     @Test
-    public void part2() {
-    }
+    public void part2() { }
 }
