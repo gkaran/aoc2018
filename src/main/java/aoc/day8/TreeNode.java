@@ -43,4 +43,17 @@ public class TreeNode {
 	).collect(Collectors.toList());
     }
 
+    public int getValue() {
+        if (getChildrenCapacity() == 0) {
+            return metadata.stream().mapToInt(Integer::intValue).sum();
+	}
+
+        return metadata.stream()
+	    .map(i -> i - 1)
+	    .filter(i -> i < children.length)
+	    .map(i -> children[i])
+	    .mapToInt(TreeNode::getValue)
+	    .sum();
+    }
+
 }

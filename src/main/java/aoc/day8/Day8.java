@@ -7,24 +7,37 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
-public class Day8 implements Solution<Integer, String> {
+public class Day8 implements Solution<Integer, Integer> {
 
     private int treeParseIndex = 0;
+    private TreeNode root = null;
 
     @Override
     public Integer part1(List<String> data) {
-	List<Integer> input = Arrays.stream(data.get(0).split(" "))
-	    .map(Integer::parseInt)
-	    .collect(toList());
-
-	treeParseIndex = 0;
-	TreeNode root = parseNode(input);
+	parseTree(data);
 
 	return root.getAllNestedNodesFlattened().stream()
 	    .map(TreeNode::getMetadata)
 	    .flatMap(List::stream)
 	    .mapToInt(Integer::intValue)
 	    .sum();
+    }
+
+    @Override
+    public Integer part2(List<String> data) {
+	parseTree(data);
+	return root.getValue();
+    }
+
+    private void parseTree(List<String> data) {
+        if (root == null) {
+	    List<Integer> input = Arrays.stream(data.get(0).split(" "))
+		.map(Integer::parseInt)
+		.collect(toList());
+
+	    treeParseIndex = 0;
+	    root = parseNode(input);
+	}
     }
 
     private TreeNode parseNode(List<Integer> input) {
@@ -43,10 +56,5 @@ public class Day8 implements Solution<Integer, String> {
 	node.setMetadata(meta);
 
 	return node;
-    }
-
-    @Override
-    public String part2(List<String> data) {
-	return null;
     }
 }
