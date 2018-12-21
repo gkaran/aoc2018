@@ -11,7 +11,7 @@ public class Runner {
     private static final InputLoader inputLoader = new InputLoader();
 
     public static void main(String[] args) throws Exception {
-	int day = 7;
+	int day = 8;
 	String className = "aoc.day" + day + ".Day" + day;
 
 	Class<Solution<?, ?>> clazz = (Class<Solution<?, ?>>) Class.forName(className);
